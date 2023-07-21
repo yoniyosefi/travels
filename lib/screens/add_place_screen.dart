@@ -22,16 +22,20 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
   final _titleController = TextEditingController();
 
   File? _selectedImage;
+  PlaceLocation? _selectedLocation;
 
   void _savePlace() {
-    if (_titleController.text.isEmpty || _selectedImage == null) {
+    if (_titleController.text.isEmpty ||
+        _selectedImage == null ||
+        _selectedLocation == null) {
       return;
     }
-    ref.read(placesProvider.notifier).addPlace(Place(
-        title: _titleController.text,
-        image: _selectedImage!,
-        location:
-            PlaceLocation(latitude: 0, longitude: 0, address: 'address')));
+    ref.read(placesProvider.notifier).addPlace(
+          Place(
+              title: _titleController.text,
+              image: _selectedImage!,
+              location: _selectedLocation!),
+        );
     Navigator.of(context).pop();
   }
 
@@ -78,7 +82,11 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
             const SizedBox(
               height: 16,
             ),
-            LocationInput(),
+            LocationInput(
+              setLocation: (placeLocation) {
+                _selectedLocation = placeLocation;
+              },
+            ),
             const SizedBox(
               height: 16,
             ),
