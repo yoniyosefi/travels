@@ -10,6 +10,9 @@
 .svn/
 migrate_working_dir/
 
+# exclude all .env files from source control
+*.env
+
 # IntelliJ related
 *.iml
 *.ipr
